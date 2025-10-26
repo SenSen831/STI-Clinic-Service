@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>FAQ Section</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    .faq-container {
+      max-width: 600px;
+      margin: auto;
+    }
+    .faq-item {
+      border-bottom: 1px solid #ccc;
+      padding: 10px 0;
+    }
+    .faq-question {
+      cursor: pointer;
+      font-weight: bold;
+      color: #0056b3;
+    }
+    .faq-answer {
+      display: none;
+      padding-top: 5px;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <div class="faq-container">
+    <h2>Frequently Asked Questions</h2>
+
+    <div class="faq-item">
+      <div class="faq-question">How do I register for STI Clinic services?</div>
+      <div class="faq-answer">You can register online through the STI Clinic portal. Just click the “Online Clinical Registration” button on the homepage.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">Who can access the clinic?</div>
+      <div class="faq-answer">Medical interns, students, and community members are all welcome to use our services.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">What services are offered?</div>
+      <div class="faq-answer">We offer general consultations, laboratory tests, health education, and more. Visit the “Information about STI Clinic” section for full details.</div>
+    </div>
+  </div>
+
+  <script>
+    const questions = document.querySelectorAll('.faq-question');
+    questions.forEach(q => {
+      q.addEventListener('click', () => {
+        const answer = q.nextElementSibling;
+        answer.style.display = answer.style.display === 'block' ? 'none' : 'block';
+      });
+    });
+  </script>
+</body>
+</html>

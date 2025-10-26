@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>STI Clinic Dashboard</title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <script src="https://alcdn.msauth.net/browser/2.34.0/js/msal-browser.min.js"></script>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      display: flex;
+      height: 100vh;
+      background: linear-gradient(to bottom right, #173a72, #3c7dc3);
+      color: white;
+    }
+
+    /* SIDEBAR */
+    .sidebar {
+      width: 250px;
+      background-color: #0c1f3f;
+      padding: 30px 20px;
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      height: 100%;
+      left: 0;
+      top: 0;
+      transition: left 0.3s ease;
+      z-index: 100;
+      box-shadow: 3px 0 8px rgba(0, 0, 0, 0.3);
+    }
+
+    .sidebar h2 {
+      text-align: center;
+      color: #ffffff;
+      margin-bottom: 35px;
+      font-size: 22px;
+      letter-spacing: 1px;
+    }
+
+    .menu a {
+      display: flex;
+      align-items: center;
+      color: white;
+      text-decoration: none;
+      padding: 12px 10px;
+      border-radius: 10px;
+      margin-bottom: 10px;
+      transition: background 0.3s;
+      font-size: 16px;
+    }
+
+    .menu a:hover {
+      background-color: #244c82;
+    }
+
+    .menu i {
+      margin-right: 15px;
+      font-size: 18px;
+      width: 25px;
+      text-align: center;
+    }
+
+    #user-info {
+      margin-bottom: 20px;
+      font-size: 14px;
+      text-align: center;
+      opacity: 0.8;
+    }
+
+    /* MAIN CONTENT */
+    .content {
+      flex: 1;
+      margin-left: 270px;
+      padding: 60px 50px;
+      overflow-y: auto;
+      transition: margin-left 0.3s ease;
+    }
+
+    .content-section {
+      display: none;
+      animation: fadeIn 0.5s ease-in-out;
+    }
+
+    .content-section.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* SERVICE CARDS */
+    .service-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 25px;
+    }
+
+    .service-card {
+      background-color: rgba(255, 255, 255, 0.15);
+      color: white;
+      padding: 25px;
+      border-radius: 14px;
+      text-align: center;
+      transition: transform 0.3s, background 0.3s;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .service-card:hover {
+      transform: translateY(-5px);
+      background-color: rgba(255, 255, 255, 0.25);
+    }
+
+    .service-card i {
+      font-size: 50px;
+      margin-bottom: 15px;
+      color: #f8f8f8;
+    }
+
+    /* BUTTONS */
+    button {
+      background: linear-gradient(to right, #163a6b, #2d64a6);
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background: linear-gradient(to right, #204e91, #3d7cd1);
+    }
+
+    /* FORM */
+    .form-container {
+      background-color: rgba(255, 255, 255, 0.9);
+      color: black;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      max-width: 600px;
+    }
+
+    label { font-weight: bold; }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 6px;
+      margin-bottom: 16px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+
+    /* FAQ Section */
+    #faq ol {
+      background-color: rgba(255, 255, 255, 0.1);
+      padding: 20px;
+      border-radius: 10px;
+    }
+
+    #faq li {
+      background-color: rgba(255, 255, 255, 0.2);
+      padding: 15px;
+      margin-bottom: 12px;
+      border-radius: 10px;
+      list-style: decimal;
+    }
+
+    #faq li b {
+      color: #a9d2ff;
+    }
+
+    /* HAMBURGER MENU */
+    .hamburger {
+      display: none;
+      font-size: 26px;
+      cursor: pointer;
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 200;
+      color: white;
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        left: -270px;
+      }
+
+      .sidebar.active {
+        left: 0;
+      }
+
+      .content {
+        margin-left: 0;
+        padding: 80px 20px;
+      }
+
+      .hamburger {
+        display: block;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="hamburger" onclick="toggleSidebar()">
+    <i class="fa-solid fa-bars"></i>
+  </div>
+
+  <div class="sidebar" id="sidebar">
+    <h2>STI Clinic</h2>
+    <div id="user-info">Loading user...</div>
+    <div class="menu">
+      <a href="#" onclick="showSection('info')"><i class="fa-solid fa-house"></i>Clinic Info</a>
+      <a href="#" onclick="showSection('services')"><i class="fa-solid fa-briefcase-medical"></i>Services</a>
+      <a href="#" onclick="showSection('records')"><i class="fa-solid fa-notes-medical"></i>Medical Records</a>
+      <a href="#" onclick="showSection('faq')"><i class="fa-solid fa-question-circle"></i>FAQ</a>
+      <a href="#" onclick="showSection('register')"><i class="fa-solid fa-calendar-check"></i>Register</a>
+      <a href="#" id="logout-btn"><i class="fa-solid fa-right-from-bracket"></i>Log Out</a>
+    </div>
+  </div>
+
+  <div class="content">
+    <!-- INFO -->
+    <div id="info" class="content-section active">
+      <h1>Clinic Info</h1>
+      <p style="margin-top: 20px;">Welcome to the STI Clinic. We provide quality health services to students and staff.</p>
+    </div>
+
+    <!-- SERVICES -->
+    <div id="services" class="content-section">
+      <h1>Our Services</h1>
+      <div class="service-cards">
+        <div class="service-card">
+          <i class="fa-solid fa-stethoscope"></i>
+          <h3>General Checkup</h3>
+          <p>Routine health assessments to ensure wellness and detect issues early.</p>
+        </div>
+        <div class="service-card">
+          <i class="fa-solid fa-syringe"></i>
+          <h3>Vaccination</h3>
+          <p>Get your recommended vaccines to stay protected from common illnesses.</p>
+        </div>
+        <div class="service-card">
+          <i class="fa-solid fa-user-md"></i>
+          <h3>Consultation</h3>
+          <p>Meet with a professional for health concerns and advice.</p>
+        </div>
+        <div class="service-card">
+          <i class="fa-solid fa-briefcase-medical"></i>
+          <h3>First Aid</h3>
+          <p>Immediate care for minor injuries and emergencies within the campus.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- RECORDS -->
+    <div id="records" class="content-section">
+      <h1>Medical Records</h1>
+      <p>Your personal medical history and visit details are shown here.</p>
+    </div>
+
+    <!-- FAQ -->
+    <div id="faq" class="content-section">
+      <h1>Frequently Asked Questions (FAQ)</h1>
+      <ol>
+        <li><b>What services does the STI Clinic offer?</b><br>We offer checkups, vaccinations, consultations, and emergency care.</li>
+        <li><b>Where is the clinic located?</b><br>It is located near the main building, ground floor beside the guidance office.</li>
+        <li><b>When is the clinic open?</b><br>The clinic is open Monday to Friday from 8:00 AM to 5:00 PM.</li>
+        <li><b>Who can avail the clinic services?</b><br>All STI students, staff, and faculty members can avail services.</li>
+        <li><b>How do I register for a consultation?</b><br>Go to the “Register” section and fill out the consultation form.</li>
+        <li><b>Can I get a medical certificate?</b><br>Yes, depending on your medical evaluation after checkup.</li>
+        <li><b>Is there an emergency contact?</b><br>Yes, you can use the “Emergency Button” to alert clinic staff immediately.</li>
+        <li><b>Are walk-ins accepted?</b><br>Yes, but registered appointments are prioritized.</li>
+      </ol>
+    </div>
+
+    <!-- REGISTER -->
+    <div id="register" class="content-section">
+      <h1>Register</h1>
+      <div class="form-container">
+        <form>
+          <label for="name">Name:</label>
+          <input type="text" id="name" placeholder="Enter your full name" />
+
+          <label for="role">Role:</label>
+          <select id="role">
+            <option value="">Select role</option>
+            <option>Student</option>
+            <option>Faculty</option>
+            <option>Staff</option>
+          </select>
+
+          <label for="section">Section / Room Number:</label>
+          <select id="section">
+            <option value="">Select section</option>
+            <option>BSIT 101 - Room 201</option>
+            <option>BSIT 102 - Room 202</option>
+            <option>BSBA 201 - Room 301</option>
+            <option>BSHM 101 - Room 105</option>
+          </select>
+
+          <label for="advisor">Advisor:</label>
+          <input type="text" id="advisor" placeholder="Enter your advisor's name" />
+
+          <label for="reason">Reason for Visit:</label>
+          <textarea id="reason" placeholder="Type your reason here..."></textarea>
+
+          <label for="date">Date:</label>
+          <input type="date" id="date" />
+
+          <label for="time">Time:</label>
+          <input type="time" id="time" />
+
+          <button type="submit">Submit</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Section switching
+    function showSection(id) {
+      document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+      document.getElementById('sidebar').classList.remove('active'); // Close sidebar on mobile
+    }
+
+    // Hamburger toggle
+    function toggleSidebar() {
+      document.getElementById('sidebar').classList.toggle('active');
+    }
+
+    // Check login session
+    const user = localStorage.getItem("loggedInUser");
+    const userInfo = document.getElementById("user-info");
+
+    if (!user) {
+      window.location.href = "login.html";
+    } else {
+      userInfo.textContent = `Logged in as ${user}`;
+    }
+
+    // Logout
+    document.getElementById("logout-btn").addEventListener("click", () => {
+      localStorage.removeItem("loggedInUser");
+      window.location.href = "login.html";
+    });
+  </script>
+</body>
+</html>

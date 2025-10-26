@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>STI Clinic Services</title>
+  <style>
+    /* Reset */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* Body background image (full-screen hero) */
+    body {
+      font-family: Arial, sans-serif;
+      background: #1a3a66; /* fallback color */
+      color: #222;
+      overflow-y: scroll; /* keep page scrollable */
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* Hide scrollbar visually but allow scroll (Chrome/Edge/Safari + Firefox) */
+    body::-webkit-scrollbar { display: none; }
+    body { scrollbar-width: none; }
+
+    /* Fixed header */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 28px;
+      z-index: 1000;
+      background: rgba(15,46,92,0.85); /* dark translucent to show over hero */
+      box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+    }
+
+    header h1 {
+      font-size: 20px;
+      color: #FFD700; /* yellow for STI */
+      letter-spacing: 0.6px;
+      margin: 0;
+    }
+
+    /* Login button (blue) */
+    .login-btn {
+      display: inline-block;
+      background: #0072bc;
+      color: #fff;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 6px;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      font-size: 15px;
+    }
+    .login-btn:hover { background: #005fa3; }
+
+    /* HERO (full viewport with background image) */
+    .hero {
+      min-height: 100vh; /* fills viewport so info appears below */
+      background: 
+        linear-gradient(to bottom, rgba(26,58,102,0.55), rgba(26,58,102,0.35)),
+        url("munozSTI.jpg") center center / cover no-repeat; /* replace sti-bg.jpg with your file */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 28px;
+      text-align: center;
+      color: #fff;
+    }
+
+    .hero .content {
+      max-width: 900px;
+      z-index: 1;
+    }
+
+    .hero h2 {
+      font-size: 42px;
+      margin-bottom: 12px;
+    }
+    .hero p {
+      font-size: 18px;
+      max-width: 720px;
+      margin: 0 auto 18px;
+      line-height: 1.5;
+    }
+    .hero .info-link {
+      display: inline-block;
+      background: #ffffff;
+      color: #0072bc;
+      padding: 10px 18px;
+      border-radius: 8px;
+      border: 2px solid #0072bc;
+      font-weight: 700;
+      text-decoration: none;
+    }
+    .hero .info-link:hover {
+      background: #0072bc; color: #fff; border-color: #005fa3;
+    }
+
+    /* Info section (below hero) */
+    .clinic-info-wrap {
+      padding: 60px 20px 120px; /* spacing around the info area */
+      display: flex;
+      justify-content: center;
+    }
+
+    .clinic-info {
+      width: 100%;
+      max-width: 980px;
+      background: rgba(255,255,255,0.95);
+      border-radius: 14px;
+      padding: 28px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+      color: #1a3a66;
+    }
+
+    .clinic-info h2 {
+      color: #1a3a66;
+      margin-bottom: 10px;
+      font-size: 24px;
+    }
+
+    .clinic-info p, .clinic-info li {
+      font-size: 15px;
+      line-height: 1.6;
+      color: #333;
+    }
+
+    .clinic-info a { color: #0072bc; text-decoration: none; font-weight: 600;}
+    .clinic-info a:hover { text-decoration: underline; }
+
+    ul { margin-left: 18px; margin-top: 8px; }
+
+    /* Responsive tweaks */
+    @media (max-width: 768px) {
+      header { padding: 0 16px; height: 64px; }
+      header h1 { font-size: 18px; }
+      .hero h2 { font-size: 30px; }
+      .hero p { font-size: 15px; }
+      .clinic-info { padding: 20px; border-radius: 10px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>STI Clinic Services</h1>
+    <!-- Log In links to login.html (blue) -->
+    <a class="login-btn" href="login.html">Log In</a>
+  </header>
+
+  <!-- HERO: full-screen background image + short intro + button to jump to info -->
+  <section class="hero" aria-label="Hero">
+    <div class="content">
+      <h2>Online Clinical Registration</h2>
+      <p>We warmly welcome medical interns, students, and community members — scroll down for clinic details, schedules and contact information.</p>
+      <a class="info-link" href="#clinic-info">Information about STI Clinic</a>
+    </div>
+  </section>
+
+  <!-- Clinic info placed below hero so user scrolls to reach it -->
+  <div class="clinic-info-wrap">
+    <section id="clinic-info" class="clinic-info" aria-label="Clinic information">
+      <h2>STI Clinic Services</h2>
+
+      <p><strong>📍 Location:</strong><br>
+      STI College Munoz-EDSA<br>
+      Quezon City, Philippines<br>
+      <a href="https://maps.google.com?q=STI+College+Munoz+EDSA" target="_blank" rel="noopener">View on Google Maps</a></p>
+
+      <p><strong>🕒 Hours:</strong><br>
+      Monday – Friday: 9:00 AM – 5:00 PM<br>
+      Walk-ins: 10:00 AM – 3:00 PM</p>
+
+      <p><strong>📞 Contact:</strong><br>
+      Phone: <a href="tel:+1234567890">(123) 456-7890</a><br>
+      Email: <a href="mailto:info@STImunoz-EDSA">info@STImunoz-EDSA</a></p>
+
+      <p><strong>💬 Services:</strong></p>
+      <ul>
+        <li>STI Testing</li>
+        <li>PrEP / PEP</li>
+        <li>Contraception</li>
+        <li>Counseling</li>
+      </ul>
+
+      <p><strong>🧾 Payment:</strong><br>
+      Free or low-cost services. Insurance accepted.</p>
+
+      <p><strong>🔒 Privacy:</strong><br>
+      100% confidential care for all ages.</p>
+    </section>
+  </div>
+
+</body>
+</html>
