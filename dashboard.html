@@ -14,14 +14,14 @@
       font-family: Arial, sans-serif;
       display: flex;
       height: 100vh;
-      background: linear-gradient(to bottom right, #173a72, #3c7dc3);
+      background: linear-gradient(to bottom right, #1a3a66, #aad4ff);
       color: white;
     }
 
     /* SIDEBAR */
     .sidebar {
       width: 250px;
-      background-color: #0c1f3f;
+      background-color: #0b1d33;
       padding: 30px 20px;
       display: flex;
       flex-direction: column;
@@ -31,15 +31,12 @@
       top: 0;
       transition: left 0.3s ease;
       z-index: 100;
-      box-shadow: 3px 0 8px rgba(0, 0, 0, 0.3);
     }
 
     .sidebar h2 {
       text-align: center;
-      color: #ffffff;
-      margin-bottom: 35px;
-      font-size: 22px;
-      letter-spacing: 1px;
+      color: white;
+      margin-bottom: 30px;
     }
 
     .menu a {
@@ -55,7 +52,7 @@
     }
 
     .menu a:hover {
-      background-color: #244c82;
+      background-color: #1a3a66;
     }
 
     .menu i {
@@ -103,44 +100,27 @@
     }
 
     .service-card {
-      background-color: rgba(255, 255, 255, 0.15);
+      background-color: rgba(255, 255, 255, 0.25);
       color: white;
       padding: 25px;
       border-radius: 14px;
       text-align: center;
       transition: transform 0.3s, background 0.3s;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
     }
 
     .service-card:hover {
       transform: translateY(-5px);
-      background-color: rgba(255, 255, 255, 0.25);
+      background-color: rgba(255, 255, 255, 0.35);
     }
 
     .service-card i {
       font-size: 50px;
       margin-bottom: 15px;
-      color: #f8f8f8;
-    }
-
-    /* BUTTONS */
-    button {
-      background: linear-gradient(to right, #163a6b, #2d64a6);
-      color: white;
-      border: none;
-      padding: 12px 20px;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-
-    button:hover {
-      background: linear-gradient(to right, #204e91, #3d7cd1);
     }
 
     /* FORM */
     .form-container {
-      background-color: rgba(255, 255, 255, 0.9);
+      background-color: white;
       color: black;
       padding: 25px;
       border-radius: 12px;
@@ -160,7 +140,7 @@
       font-size: 14px;
     }
 
-    /* FAQ Section */
+    /* FAQ */
     #faq ol {
       background-color: rgba(255, 255, 255, 0.1);
       padding: 20px;
@@ -176,7 +156,7 @@
     }
 
     #faq li b {
-      color: #a9d2ff;
+      color: #bde0ff;
     }
 
     /* HAMBURGER MENU */
@@ -209,6 +189,43 @@
         display: block;
       }
     }
+
+    /* MEDICAL RECORDS TABLE */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 12px;
+      overflow: hidden;
+      color: white;
+    }
+
+    th, td {
+      padding: 12px 15px;
+      text-align: left;
+    }
+
+    th {
+      background: rgba(255, 255, 255, 0.25);
+      font-weight: bold;
+    }
+
+    tr:nth-child(even) {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    tr:hover {
+      background: rgba(255, 255, 255, 0.25);
+    }
+
+    #search {
+      padding: 8px;
+      border: none;
+      border-radius: 5px;
+      width: 250px;
+      margin-bottom: 15px;
+    }
+
   </style>
 </head>
 <body>
@@ -234,7 +251,7 @@
     <!-- INFO -->
     <div id="info" class="content-section active">
       <h1>Clinic Info</h1>
-      <p style="margin-top: 20px;">Welcome to the STI Clinic. We provide quality health services to students and staff.</p>
+      <p>Welcome to the STI Clinic. We provide quality health services to students and staff.</p>
     </div>
 
     <!-- SERVICES -->
@@ -264,10 +281,47 @@
       </div>
     </div>
 
-    <!-- RECORDS -->
+    <!-- MEDICAL RECORDS -->
     <div id="records" class="content-section">
       <h1>Medical Records</h1>
       <p>Your personal medical history and visit details are shown here.</p>
+
+      <input type="text" id="search" placeholder="🔍 Search by name or date...">
+
+      <table id="recordsTable">
+        <thead>
+          <tr>
+            <th>Patient Name</th>
+            <th>Date</th>
+            <th>Diagnosis</th>
+            <th>Treatment</th>
+            <th>Nurse</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Juan Dela Cruz</td>
+            <td>2025-10-20</td>
+            <td>Fever</td>
+            <td>Paracetamol</td>
+            <td>Nurse</td>
+          </tr>
+          <tr>
+            <td>Maria Clara</td>
+            <td>2025-09-25</td>
+            <td>Cough</td>
+            <td>Ambroxol</td>
+            <td>Nurse</td>
+          </tr>
+          <tr>
+            <td>Jose Rizal</td>
+            <td>2025-08-10</td>
+            <td>Check-up</td>
+            <td>None</td>
+            <td>Nurse</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
 
     <!-- FAQ -->
@@ -279,9 +333,6 @@
         <li><b>When is the clinic open?</b><br>The clinic is open Monday to Friday from 8:00 AM to 5:00 PM.</li>
         <li><b>Who can avail the clinic services?</b><br>All STI students, staff, and faculty members can avail services.</li>
         <li><b>How do I register for a consultation?</b><br>Go to the “Register” section and fill out the consultation form.</li>
-        <li><b>Can I get a medical certificate?</b><br>Yes, depending on your medical evaluation after checkup.</li>
-        <li><b>Is there an emergency contact?</b><br>Yes, you can use the “Emergency Button” to alert clinic staff immediately.</li>
-        <li><b>Are walk-ins accepted?</b><br>Yes, but registered appointments are prioritized.</li>
       </ol>
     </div>
 
@@ -355,6 +406,18 @@
     document.getElementById("logout-btn").addEventListener("click", () => {
       localStorage.removeItem("loggedInUser");
       window.location.href = "login.html";
+    });
+
+    // Search table
+    const search = document.getElementById('search');
+    const rows = document.querySelectorAll('#recordsTable tbody tr');
+
+    search.addEventListener('keyup', () => {
+      const filter = search.value.toLowerCase();
+      rows.forEach(row => {
+        const text = row.textContent.toLowerCase();
+        row.style.display = text.includes(filter) ? '' : 'none';
+      });
     });
   </script>
 </body>
